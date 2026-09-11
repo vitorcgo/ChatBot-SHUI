@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHUI · Atendimento</title>
+    <link rel="icon" href="/static/assets/shui-logo.webp" type="image/webp">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app">
+        <div class="aviso" aria-hidden="true">
+            <div class="aviso-trilha">
+                <span>Frete grátis acima de R$199 em São Paulo</span>
+                <span>R$299 no Sudeste</span>
+                <span>R$399 nas demais regiões</span>
+                <span>Atendimento com IA 24h</span>
+                <span>Streetwear nacional</span>
+                <span>Frete grátis acima de R$199 em São Paulo</span>
+                <span>R$299 no Sudeste</span>
+                <span>R$399 nas demais regiões</span>
+                <span>Atendimento com IA 24h</span>
+                <span>Streetwear nacional</span>
+            </div>
+        </div>
+
+        <header class="topo">
+            <div class="marca">
+                <img class="logo" src="/static/assets/shui-logo.webp" alt="Logo SHUI">
+                <span class="marca-nome" id="nome-empresa">SHUI</span>
+                <span class="marca-divisor" aria-hidden="true"></span>
+                <span class="marca-sub">Atendimento</span>
+            </div>
+
+            <div class="topo-acoes">
+                <span class="status" id="status-api">
+                    <span class="status-ponto"></span>
+                    <span class="status-texto" id="status-texto">Verificando</span>
+                </span>
+                <a class="link-topo esconder-mobile" href="/docs" target="_blank">
+                    <i data-icone="livro"></i><span>API Docs</span>
+                </a>
+                <button class="botao botao-solido" id="botao-nova" type="button" aria-label="Nova conversa">
+                    <i data-icone="mais"></i><span>Nova conversa</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="conteudo">
+            <section class="chat">
+                <div class="chat-corpo" id="chat-corpo">
+                    <div class="boas-vindas" id="boas-vindas">
+                        <p class="sobretitulo">Atendimento 24h · Be like water</p>
+                        <h2>Como podemos<br>te ajudar hoje?</h2>
+                        <p class="boas-vindas-texto">Tire dúvidas sobre pedidos, trocas, tamanhos e pagamentos. Nossa assistente responde em segundos.</p>
+                        <div class="atalhos" id="atalhos"></div>
+                    </div>
+
+                    <div class="mensagens" id="mensagens" aria-live="polite"></div>
+                </div>
+
+                <div class="entrada">
+                    <form class="chat-entrada" id="formulario">
+                        <textarea id="campo-mensagem" rows="1" placeholder="Escreva sua mensagem..." autocomplete="off"></textarea>
+                        <button class="botao-enviar" id="botao-enviar" type="submit" disabled aria-label="Enviar mensagem">
+                            <i data-icone="enviar"></i>
+                        </button>
+                    </form>
+                    <div class="entrada-rodape">
+                        <span class="dica-teclado">Enter para enviar · Shift + Enter para nova linha</span>
+                        <span class="contador" id="contador">0/1000</span>
+                    </div>
+                </div>
+            </section>
+
+            <aside class="gaveta" id="gaveta" aria-hidden="true">
+                <div class="gaveta-interna">
+                    <div class="painel-progresso" id="painel-progresso"><span></span></div>
+
+                    <!-- analise do atendimento -->
+                    <section class="painel-aba" data-painel="analise" hidden>
+                        <div class="painel-cabecalho">
+                            <div>
+                                <p class="sobretitulo">Painel da equipe</p>
+                                <h2>Análise do atendimento</h2>
+                            </div>
+                            <button class="botao-icone" data-fechar type="button" aria-label="Fechar painel"><i data-icone="fechar"></i></button>
+                        </div>
+
+                        <div class="painel-vazio" id="painel-vazio">
+                            <div class="painel-vazio-icone"><i data-icone="atividade"></i></div>
+                            <strong id="painel-vazio-titulo">Aguardando mensagem</strong>
+                            <p id="painel-vazio-texto">Quando o cliente escrever, a IA classifica sentimento, categoria e urgência aqui em tempo real.</p>
+                        </div>
+
+                        <div class="painel-dados" id="painel-dados" hidden>
+                            <section class="bloco">
+                                <header class="bloco-titulo"><span>01</span>Sentimento</header>
+                                <div class="sentimento">
+                                    <span class="sentimento-icone" id="sentimento-icone"></span>
+                                    <div>
+                                        <strong id="sentimento-texto">—</strong>
+                                        <span class="bloco-legenda">Última mensagem do cliente</span>
+                                    </div>
+                                </div>
+                                <div class="evolucao" id="evolucao"></div>
+                            </section>
+
+                            <section class="bloco">
+                                <header class="bloco-titulo"><span>02</span>Categoria</header>
+                                <div class="categoria" id="categoria"></div>
+                            </section>
+
+                            <section class="bloco">
+                                <header class="bloco-titulo"><span>03</span>Urgência</header>
+                                <div class="urgencia-linha">
+                                    <div class="urgencia" id="urgencia"><span></span><span></span><span></span></div>
+                                    <strong class="urgencia-texto" id="urgencia-texto">—</strong>
+                                </div>
+                            </section>
+
+                            <section class="bloco">
+                                <header class="bloco-titulo"><span>04</span>Encaminhamento</header>
+                                <div class="encaminhamento" id="encaminhamento">
+                                    <span class="encaminhamento-icone" id="encaminhamento-icone"></span>
+                                    <div>
+                                        <strong id="encaminhamento-texto">—</strong>
+                                        <p id="encaminhamento-motivo"></p>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="bloco">
+                                <header class="bloco-titulo"><span>05</span>Dados identificados</header>
+                                <dl class="dados">
+                                    <div>
+                                        <dt><i data-icone="hash"></i>Pedido</dt>
+                                        <dd id="dado-pedido">—</dd>
+                                    </div>
+                                    <div>
+                                        <dt><i data-icone="etiqueta"></i>Peça</dt>
+                                        <dd id="dado-produto">—</dd>
+                                    </div>
+                                </dl>
+                            </section>
+
+                            <div class="alertas" id="alertas"></div>
+
+                            <footer class="painel-rodape" id="painel-rodape"></footer>
+                        </div>
+                    </section>
+
+                    <!-- feedback de carregamento -->
+                    <section class="painel-aba" data-painel="carregamento" hidden>
+                        <div class="painel-cabecalho">
+                            <div>
+                                <p class="sobretitulo">Feedback de carregamento</p>
+                                <h2>Tempo de resposta</h2>
+                            </div>
+                            <button class="botao-icone" data-fechar type="button" aria-label="Fechar painel"><i data-icone="fechar"></i></button>
+                        </div>
+
+                        <section class="bloco">
+                            <header class="bloco-titulo"><span>01</span>Requisição atual</header>
+                            <div class="cronometro">
+                                <strong id="cronometro">0,0s</strong>
+                                <span id="cronometro-status">Nenhuma requisição em andamento</span>
+                            </div>
+                            <ol class="etapas" id="etapas">
+                                <li data-etapa="validacao" class="pendente">
+                                    <span class="etapa-marca"></span>
+                                    <div><strong>Validação no navegador</strong><span class="etapa-texto">Mensagem não vazia e dentro do limite</span></div>
+                                </li>
+                                <li data-etapa="envio" class="pendente">
+                                    <span class="etapa-marca"></span>
+                                    <div><strong>Envio para a API</strong><span class="etapa-texto">POST /api/chat com o histórico</span></div>
+                                </li>
+                                <li data-etapa="ia" class="pendente">
+                                    <span class="etapa-marca"></span>
+                                    <div><strong>Processamento da IA</strong><span class="etapa-texto">Gemini gera a resposta e a análise</span></div>
+                                </li>
+                                <li data-etapa="resposta" class="pendente">
+                                    <span class="etapa-marca"></span>
+                                    <div><strong>Resposta validada</strong><span class="etapa-texto">JSON conferido e exibido na tela</span></div>
+                                </li>
+                            </ol>
+                        </section>
+
+                        <section class="bloco">
+                            <header class="bloco-titulo"><span>02</span>Sessão atual</header>
+                            <div class="metricas">
+                                <div><span>Requisições</span><strong id="metrica-total">0</strong></div>
+                                <div><span>Tempo médio</span><strong id="metrica-media">—</strong></div>
+                                <div><span>Sucesso</span><strong id="metrica-sucesso">0</strong></div>
+                                <div><span>Erros</span><strong id="metrica-erros">0</strong></div>
+                            </div>
+                        </section>
+
+                        <section class="bloco">
+                            <header class="bloco-titulo"><span>03</span>Últimas requisições</header>
+                            <div class="grafico" id="grafico"></div>
+                            <p class="bloco-legenda grafico-legenda" id="grafico-legenda">As barras aparecem conforme a conversa acontece.</p>
+                        </section>
+
+                        <section class="bloco">
+                            <header class="bloco-titulo"><span>04</span>Mensagens de espera</header>
+                            <ul class="linha-tempo">
+                                <li><code>0s</code><span>Balão "Digitando" com animação</span></li>
+                                <li><code>3s</code><span>Analisando sua mensagem...</span></li>
+                                <li><code>8s</code><span>Consultando as políticas da loja...</span></li>
+                                <li><code>15s</code><span>Está demorando mais que o normal</span></li>
+                                <li><code>60s</code><span>O navegador cancela e mostra o erro</span></li>
+                            </ul>
+                        </section>
+                    </section>
+
+                    <!-- api e consumo -->
+                    <section class="painel-aba" data-painel="api" hidden>
+                        <div class="painel-cabecalho">
+                            <div>
+                                <p class="sobretitulo">Interface e consumo</p>
+                                <h2>API e integração</h2>
+                            </div>
+                            <button class="botao-icone" data-fechar type="button" aria-label="Fechar painel"><i data-icone="fechar"></i></button>
+                        </div>
+
+                        <section class="bloco">
+                            <header class="bloco-titulo"><span>01</span>Rotas disponíveis</header>
+                            <ul class="rotas">
+                                <li><span class="metodo post">POST</span><code>/api/chat</code><small>Resposta e análise da IA</small></li>
+                                <li><span class="metodo get">GET</span><code>/api/saude</code><small>Status da API e da IA</small></li>
+                                <li><span class="metodo get">GET</span><code>/api/empresa</code><small>Dados usados pela interface</small></li>
+                            </ul>
+                            <div class="botoes-linha">
+                                <a class="botao botao-solido botao-pequeno" href="/docs" target="_blank"><i data-icone="externo"></i><span>Swagger</span></a>
+                                <a class="botao botao-contorno botao-pequeno" href="/redoc" target="_blank"><i data-icone="livro"></i><span>ReDoc</span></a>
+                            </div>
+                        </section>
+
+                        <section class="bloco">
+                            <header class="bloco-titulo"><span>02</span>Status do servidor</header>
+                            <dl class="dados">
+                                <div><dt>API</dt><dd id="info-api">—</dd></div>
+                                <div><dt>Chave da IA</dt><dd id="info-chave">—</dd></div>
+                                <div><dt>Modelo</dt><dd id="info-modelo">—</dd></div>
+                                <div><dt>Modelo reserva</dt><dd id="info-reserva">—</dd></div>
+                                <div><dt>Modo demonstração</dt><dd id="info-demo">—</dd></div>
+                            </dl>
+                            <div class="botoes-linha">
+                                <button class="botao botao-contorno botao-pequeno" id="botao-verificar" type="button"><i data-icone="tentar"></i><span>Verificar novamente</span></button>
+                            </div>
+                        </section>
+
+                        <section class="bloco">
+                            <header class="bloco-titulo"><span>03</span>Última resposta em JSON</header>
+                            <pre class="codigo" id="ultimo-json">Envie uma mensagem para ver o JSON retornado pela API.</pre>
+                            <div class="botoes-linha">
+                                <button class="botao botao-contorno botao-pequeno" data-copiar="ultimo-json" type="button"><i data-icone="copiar"></i><span>Copiar</span></button>
+                            </div>
+                        </section>
+
+                        <section class="bloco">
+                            <header class="bloco-titulo"><span>04</span>Exemplo de requisição</header>
+                            <pre class="codigo" id="exemplo-curl">curl -X POST http://localhost:8000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"mensagem": "Quero trocar uma peça", "historico": []}'</pre>
+                            <div class="botoes-linha">
+                                <button class="botao botao-contorno botao-pequeno" data-copiar="exemplo-curl" type="button"><i data-icone="copiar"></i><span>Copiar</span></button>
+                            </div>
+                        </section>
+                    </section>
+
+                    <!-- resiliencia -->
+                    <section class="painel-aba" data-painel="resiliencia" hidden>
+                        <div class="painel-cabecalho">
+                            <div>
+                                <p class="sobretitulo">Erros e casos limite</p>
+                                <h2>Resiliência</h2>
+                            </div>
+                            <button class="botao-icone" data-fechar type="button" aria-label="Fechar painel"><i data-icone="fechar"></i></button>
+                        </div>
+
+                        <section class="bloco">
+                            <header class="bloco-titulo"><span>01</span>Proteções ativas</header>
+                            <ul class="protecoes">
+                                <li>
+                                    <span class="protecao-icone"><i data-icone="relogio"></i></span>
+                                    <div><strong>Timeout de <span id="info-timeout">25</span>s</strong><span>Se o modelo principal passar de <b id="info-timeout-principal">15</b>s, o reserva assume. Se estourar o total, retorna 504.</span></div>
+                                </li>
+                                <li>
+                                    <span class="protecao-icone"><i data-icone="troca"></i></span>
+                                    <div><strong>Modelo reserva</strong><span>Se a IA cair (503), estourar a cota (429) ou responder fora do JSON (502), a nova tentativa usa <code id="info-reserva-protecao">outro modelo</code>.</span></div>
+                                </li>
+                                <li>
+                                    <span class="protecao-icone"><i data-icone="velocimetro"></i></span>
+                                    <div><strong>Limite de <span id="info-limite">15</span> mensagens/min</strong><span>Por IP, protegendo a cota da IA. Retorna 429.</span></div>
+                                </li>
+                                <li>
+                                    <span class="protecao-icone"><i data-icone="cadeado"></i></span>
+                                    <div><strong>Validação de entrada</strong><span>Vazia, longa demais ou JSON inválido retornam 400. Corpo acima de 64 KB retorna 413.</span></div>
+                                </li>
+                            </ul>
+                        </section>
+
+                        <section class="bloco">
+                            <header class="bloco-titulo"><span>02</span>Testar na prática</header>
+                            <p class="bloco-legenda">Dispara o caso real e mostra no chat exatamente o que o cliente veria.</p>
+                            <div class="testes" id="testes">
+                                <button class="teste" data-teste="timeout" data-simulado type="button"><span class="codigo-http">504</span><strong>IA demorou demais</strong></button>
+                                <button class="teste" data-teste="limite" data-simulado type="button"><span class="codigo-http">429</span><strong>Rate limit da IA</strong></button>
+                                <button class="teste" data-teste="fora_do_ar" data-simulado type="button"><span class="codigo-http">503</span><strong>IA fora do ar</strong></button>
+                                <button class="teste" data-teste="json_invalido" data-simulado type="button"><span class="codigo-http">502</span><strong>Resposta sem JSON</strong></button>
+                                <button class="teste" data-teste="vazia" type="button"><span class="codigo-http">400</span><strong>Mensagem vazia</strong></button>
+                                <button class="teste" data-teste="grande" type="button"><span class="codigo-http">400</span><strong>Mensagem gigante</strong></button>
+                                <button class="teste" data-teste="rota" type="button"><span class="codigo-http">404</span><strong>Rota inexistente</strong></button>
+                                <button class="teste" data-teste="manipulacao" type="button"><span class="codigo-http ok">IA</span><strong>Prompt injection</strong></button>
+                            </div>
+                            <div class="alerta info aviso-demo" id="aviso-demo" hidden>
+                                <i data-icone="alerta"></i>
+                                <span>As simulações de falha da IA estão desativadas. Coloque <code>MODO_DEMONSTRACAO=true</code> no <code>.env</code> e reinicie o servidor.</span>
+                            </div>
+                        </section>
+
+                        <section class="bloco">
+                            <header class="bloco-titulo"><span>03</span>Registro de eventos</header>
+                            <ol class="eventos" id="eventos">
+                                <li class="evento-vazio">Nenhuma requisição feita ainda.</li>
+                            </ol>
+                        </section>
+                    </section>
+                </div>
+            </aside>
+
+            <nav class="trilho" aria-label="Painéis de análise">
+                <button class="trilho-botao" data-abrir="analise" type="button" aria-label="Análise do atendimento">
+                    <i data-icone="atividade"></i>
+                    <span class="trilho-badge"></span>
+                    <span class="trilho-dica">Análise</span>
+                </button>
+                <button class="trilho-botao" data-abrir="carregamento" type="button" aria-label="Tempo de resposta">
+                    <i data-icone="velocimetro"></i>
+                    <span class="trilho-badge"></span>
+                    <span class="trilho-dica">Carregamento</span>
+                </button>
+                <button class="trilho-botao" data-abrir="api" type="button" aria-label="API e integração">
+                    <i data-icone="codigo"></i>
+                    <span class="trilho-badge"></span>
+                    <span class="trilho-dica">API</span>
+                </button>
+                <button class="trilho-botao" data-abrir="resiliencia" type="button" aria-label="Resiliência">
+                    <i data-icone="escudo"></i>
+                    <span class="trilho-badge"></span>
+                    <span class="trilho-dica">Resiliência</span>
+                </button>
+                <span class="trilho-rotulo">Painéis</span>
+            </nav>
+        </main>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
